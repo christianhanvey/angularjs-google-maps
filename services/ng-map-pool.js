@@ -11,14 +11,15 @@
    * @desc map instance pool
    */
   var mapInstances = [];
-  var $window, $document, $timeout;
+  var $window, $document, $timeout, $ngMapConfig;
 
   var add = function(el) {
     var mapDiv = $document.createElement("div");
     mapDiv.style.width = "100%";
     mapDiv.style.height = "100%";
     el.appendChild(mapDiv);
-    var map = new $window.google.maps.Map(mapDiv, { mapId: 'MAP_ID_' + mapInstances.length });
+    var mapOptions = $ngMapConfig.useAdvancedMarkerElements ? { mapId: 'MAP_ID_' + mapInstances.length } : {};
+    var map = new $window.google.maps.Map(mapDiv, mapOptions);
     mapInstances.push(map);
     return map;
   };
@@ -111,8 +112,8 @@
 	  }
   };
 
-  var NgMapPool = function(_$document_, _$window_, _$timeout_) {
-    $document = _$document_[0], $window = _$window_, $timeout = _$timeout_;
+  var NgMapPool = function(_$document_, _$window_, _$timeout_, _ngMapConfig_) {
+    $document = _$document_[0], $window = _$window_, $timeout = _$timeout_, $ngMapConfig = _ngMapConfig_;
 
     return {
 	  mapInstances: mapInstances,
@@ -123,7 +124,7 @@
     };
   };
 
-  NgMapPool.$inject = [ '$document', '$window', '$timeout'];
+  NgMapPool.$inject = [ '$document', '$window', '$timeout', 'ngMapConfig'];
 
   angular.module('ngMap').factory('NgMapPool', NgMapPool);
 

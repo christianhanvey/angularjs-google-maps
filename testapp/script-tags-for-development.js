@@ -3,6 +3,7 @@ document.write([
   '<script src="lib/angular.js"></script>',
   '<script src="../app.js"></script>',
   '<script src="../controllers/map-controller.js"></script>',
+  '<script src="../services/ng-map-config.js"></script>',
   '<script src="../services/ng-map.js"></script>',
   '<script src="../services/ng-map-pool.js"></script>',
   '<script src="../services/geo-coder.js"></script>',

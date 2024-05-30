@@ -31,7 +31,11 @@ factory();
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-angular.module('ngMap', []);
+angular.module('ngMap', [])
+.config(function (ngMapConfigProvider) {
+    ngMapConfigProvider.useAdvancedMarkerElements = true;
+  });
+;
 
 /**
  * @ngdoc controller
@@ -3200,6 +3204,32 @@ angular.module('ngMap', []);
     service('NavigatorGeolocation', NavigatorGeolocation);
 })();
 
+(function(){
+    'use strict';
+
+    angular.module('ngMap').provider('ngMapConfig', function ngMapConfigProvider() {
+
+  // Default values
+  var useAdvancedMarkerElements = false;
+
+  return {
+    get useAdvancedMarkerElements() {
+      return useAdvancedMarkerElements;
+    },
+    set useAdvancedMarkerElements(value) {
+        useAdvancedMarkerElements = !!value;
+    },
+
+    $get: function () {
+      return {
+        useAdvancedMarkerElements: useAdvancedMarkerElements
+      };
+    }
+  };
+})
+
+})();
+
 /**
  * @ngdoc factory
  * @name NgMapPool
@@ -3213,14 +3243,16 @@ angular.module('ngMap', []);
    * @desc map instance pool
    */
   var mapInstances = [];
-  var $window, $document, $timeout;
+  var $window, $document, $timeout, $ngMapConfig;
 
   var add = function(el) {
     var mapDiv = $document.createElement("div");
     mapDiv.style.width = "100%";
     mapDiv.style.height = "100%";
     el.appendChild(mapDiv);
-    var map = new $window.google.maps.Map(mapDiv, { mapId: 'MAP_ID_' + mapInstances.length });
+    var mapOptions = $ngMapConfig.useAdvancedMarkerElements ? { mapId: 'MAP_ID_' + mapInstances.length } : {};
+    void 0;
+    var map = new $window.google.maps.Map(mapDiv, mapOptions);
     mapInstances.push(map);
     return map;
   };
@@ -3313,8 +3345,8 @@ angular.module('ngMap', []);
 	  }
   };
 
-  var NgMapPool = function(_$document_, _$window_, _$timeout_) {
-    $document = _$document_[0], $window = _$window_, $timeout = _$timeout_;
+  var NgMapPool = function(_$document_, _$window_, _$timeout_, _ngMapConfig_) {
+    $document = _$document_[0], $window = _$window_, $timeout = _$timeout_, $ngMapConfig = _ngMapConfig_;
 
     return {
 	  mapInstances: mapInstances,
@@ -3325,7 +3357,7 @@ angular.module('ngMap', []);
     };
   };
 
-  NgMapPool.$inject = [ '$document', '$window', '$timeout'];
+  NgMapPool.$inject = [ '$document', '$window', '$timeout', 'ngMapConfig'];
 
   angular.module('ngMap').factory('NgMapPool', NgMapPool);
 
