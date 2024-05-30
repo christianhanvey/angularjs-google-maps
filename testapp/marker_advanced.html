@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html ng-app="ngMap">
+<html>
 <head>
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <script src="script-tags-for-development.js"></script>
 <script>
   angular
-    .module('testApp', ['ngMap'])
+    .module('ngMapCustom', ['ngMap'])
     .config(function (ngMapConfigProvider) {
-      //ngMapConfigProvider.useAdvancedMarkerElements = true;
+      ngMapConfigProvider.useAdvancedMarkerElements = true;
     });
 </script>
 </head>
 
-<body>
+<body ng-app="ngMapCustom">
   <ng-map id="map" zoom="11" center="[40.74, -74.18]">
     <marker position="[40.71, -74.21]" title="hello"></marker>
     <marker position="[40.72, -74.20]" title="marker" animation="Animation.DROP"></marker>
