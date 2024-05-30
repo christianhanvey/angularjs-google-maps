@@ -546,7 +546,7 @@ angular.module('ngMap', []);
           if (!_this.getProjection()) { return; }
           var posPixel = _this.getProjection().fromLatLngToDivPixel(_this.position);
           var x = Math.round(posPixel.x - (_this.el.offsetWidth/2));
-          var y = Math.round(posPixel.y - _this.el.offsetHeight - 10); // 10px for anchor
+          var y = Math.round(posPixel.y - _this.el.offsetHeight/2); 
           if (supportedTransform) {
             _this.el.style[supportedTransform] = "translate(" + x + "px, " + y + "px)";
           } else {
