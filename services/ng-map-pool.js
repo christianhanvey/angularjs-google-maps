@@ -18,7 +18,7 @@
     mapDiv.style.width = "100%";
     mapDiv.style.height = "100%";
     el.appendChild(mapDiv);
-    var map = new $window.google.maps.Map(mapDiv, {});
+    var map = new $window.google.maps.Map(mapDiv, { mapId: 'MAP_ID_' + mapInstances.length });
     mapInstances.push(map);
     return map;
   };

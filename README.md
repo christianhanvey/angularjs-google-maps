@@ -60,6 +60,10 @@ For npm users,
 
 For Meteor users: https://atmospherejs.com/wormy/angularjs-google-maps
 
+**Please note: this fork requires use of Google Maps Javascript API v3.53.2 or higher, due to using AdvancedMarkerElement**
+
+
+
 Lazy loading of Google Maps JavaScript
 ---------------------------------------
   Simply wrap the map tag with `map-lazy-load="https://maps.google.com/maps/api/js"`.
