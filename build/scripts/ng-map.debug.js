@@ -22,11 +22,7 @@
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-angular.module('ngMap', [])
-.config(function (ngMapConfigProvider) {
-    ngMapConfigProvider.useAdvancedMarkerElements = true;
-  });
-;
+angular.module('ngMap', []);
 
 /**
  * @ngdoc controller
@@ -1944,7 +1940,7 @@ angular.module('ngMap', [])
 /* global google */
 (function() {
   'use strict';
-  var parser, $parse, NgMap;
+  var parser, $parse, NgMap, ngMapConfig;
 
   var getMarker = function(options, events) {
     var marker;
@@ -1962,7 +1958,7 @@ angular.module('ngMap', [])
     if (!(options.position instanceof google.maps.LatLng)) {
       options.position = new google.maps.LatLng(0,0);
     }
-    marker = new google.maps.Marker(options);
+    marker = ngMapConfig.useAdvancedMarkerElements ? new google.maps.marker.AdvancedMarkerElement(options) : new google.maps.Marker(options);
 
     /**
      * set events
@@ -2011,10 +2007,11 @@ angular.module('ngMap', [])
     });
   };
 
-  var marker = function(Attr2MapOptions, _$parse_, _NgMap_) {
+  var marker = function(Attr2MapOptions, _$parse_, _NgMap_, _ngMapConfig_) {
     parser = Attr2MapOptions;
     $parse = _$parse_;
     NgMap = _NgMap_;
+    ngMapConfig = _ngMapConfig_;
 
     return {
       restrict: 'E',
@@ -2023,7 +2020,7 @@ angular.module('ngMap', [])
     };
   };
 
-  marker.$inject = ['Attr2MapOptions', '$parse', 'NgMap'];
+  marker.$inject = ['Attr2MapOptions', '$parse', 'NgMap', 'ngMapConfig'];
   angular.module('ngMap').directive('marker', marker);
 
 })();
@@ -3245,7 +3242,10 @@ angular.module('ngMap', [])
     mapDiv.style.height = "100%";
     el.appendChild(mapDiv);
     var mapOptions = $ngMapConfig.useAdvancedMarkerElements ? { mapId: 'MAP_ID_' + mapInstances.length } : {};
-    console.log('using advanced markers?', $ngMapConfig.useAdvancedMarkerElements);
+    if ($ngMapConfig.useAdvancedMarkerElements){
+      console.warn('NgMap AdvancedMarkerElements in use. The following Marker attributes are not supported by AdvancedMarkerElement: icon, animation.');
+    }
+    console.info('new map! using advanced markers?', $ngMapConfig.useAdvancedMarkerElements);
     var map = new $window.google.maps.Map(mapDiv, mapOptions);
     mapInstances.push(map);
     return map;

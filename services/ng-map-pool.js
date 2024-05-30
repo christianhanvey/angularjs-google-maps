@@ -19,6 +19,9 @@
     mapDiv.style.height = "100%";
     el.appendChild(mapDiv);
     var mapOptions = $ngMapConfig.useAdvancedMarkerElements ? { mapId: 'MAP_ID_' + mapInstances.length } : {};
+    if ($ngMapConfig.useAdvancedMarkerElements){
+      console.warn('NgMap is configured to use AdvancedMarkerElements. Some Marker attributes are not supported by AdvancedMarkerElement: e.g. icon, animation.');
+    }
     var map = new $window.google.maps.Map(mapDiv, mapOptions);
     mapInstances.push(map);
     return map;

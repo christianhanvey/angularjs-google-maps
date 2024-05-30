@@ -43,7 +43,7 @@
 /* global google */
 (function() {
   'use strict';
-  var parser, $parse, NgMap;
+  var parser, $parse, NgMap, ngMapConfig;
 
   var getMarker = function(options, events) {
     var marker;
@@ -61,7 +61,7 @@
     if (!(options.position instanceof google.maps.LatLng)) {
       options.position = new google.maps.LatLng(0,0);
     }
-    marker = new google.maps.Marker(options);
+    marker = ngMapConfig.useAdvancedMarkerElements ? new google.maps.marker.AdvancedMarkerElement(options) : new google.maps.Marker(options);
 
     /**
      * set events
@@ -110,10 +110,11 @@
     });
   };
 
-  var marker = function(Attr2MapOptions, _$parse_, _NgMap_) {
+  var marker = function(Attr2MapOptions, _$parse_, _NgMap_, _ngMapConfig_) {
     parser = Attr2MapOptions;
     $parse = _$parse_;
     NgMap = _NgMap_;
+    ngMapConfig = _ngMapConfig_;
 
     return {
       restrict: 'E',
@@ -122,7 +123,7 @@
     };
   };
 
-  marker.$inject = ['Attr2MapOptions', '$parse', 'NgMap'];
+  marker.$inject = ['Attr2MapOptions', '$parse', 'NgMap', 'ngMapConfig'];
   angular.module('ngMap').directive('marker', marker);
 
 })();
