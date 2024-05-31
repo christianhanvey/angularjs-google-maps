@@ -60,7 +60,7 @@ For npm users,
 
 For Meteor users: https://atmospherejs.com/wormy/angularjs-google-maps
 
-#### Configuration
+### Configuration
 
 You can use `ngMapConfig` provider to configure ngMap.
 
@@ -69,7 +69,7 @@ Available configurations:
 ##### Advanced Marker Elements
 * `useAdvancedMarkerElements`: when markers are added, the maps API uses AdvancedMarkerElement instead of Marker class
 
-Example using configuration
+Example using configuration:
 
 ```js
 app.config(function (ngMapConfigProvider) {

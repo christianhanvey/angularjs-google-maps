@@ -3251,7 +3251,6 @@ angular.module('ngMap', []);
     if ($ngMapConfig.useAdvancedMarkerElements){
       void 0;
     }
-    void 0;
     var map = new $window.google.maps.Map(mapDiv, mapOptions);
     mapInstances.push(map);
     return map;
