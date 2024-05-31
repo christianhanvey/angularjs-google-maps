@@ -60,8 +60,25 @@ For npm users,
 
 For Meteor users: https://atmospherejs.com/wormy/angularjs-google-maps
 
-**Please note: this fork requires use of Google Maps Javascript API v3.53.2 or higher, due to using AdvancedMarkerElement**
+#### Configuration
 
+You can use `ngMapConfig` provider to configure ngMap.
+
+Available configurations:
+
+##### Advanced Marker Elements
+* `useAdvancedMarkerElements`: when markers are added, the maps API uses AdvancedMarkerElement instead of Marker class
+
+Example using configuration
+
+```js
+app.config(function (ngMapConfigProvider) {
+  // Enable advanced marker elements
+  ngMapConfigProvider.useAdvancedMarkerElements = true;
+});
+```
+
+_Important: AdvancedMarkerElements require Google Maps Javascript API v3.53.2 or higher_
 
 
 Lazy loading of Google Maps JavaScript
