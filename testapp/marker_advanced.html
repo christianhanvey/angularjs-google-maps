@@ -7,6 +7,8 @@
   angular
     .module('ngMapCustom', ['ngMap'])
     .config(function (ngMapConfigProvider) {
+      // configure ngMap to use AdvancedMarkerElement class instead of Marker class
+      // 'marker' library is required when loading google maps api script when using this setting 
       ngMapConfigProvider.useAdvancedMarkerElements = true;
     })
     .controller('ngMapCustomController', function ngMapCustomController($scope){
@@ -16,7 +18,7 @@
       const beachFlagImg = document.createElement("img");
       beachFlagImg.src = "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png";
 
-      var redDiv = document.createElement('div');
+      const redDiv = document.createElement('div');
       redDiv.style = "background:red; width:90px; height:15px; color:white;border:1px solid white;text-align:center;";
       redDiv.innerHTML = '<b>Custom Content</b>';
 
@@ -40,7 +42,5 @@
     <marker position="[40.77, -74.15]" title="from"></marker>
     <marker position="[40.78, -74.14]" title="allen"></marker>
   </ng-map>
-
-  BIND:<span ng-bind="marker.content"></span>
 </body>
 </html>
