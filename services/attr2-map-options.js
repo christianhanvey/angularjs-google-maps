@@ -247,6 +247,9 @@
             continue;
           } else if (key.match(/ControlOptions$/)) { // skip controlOptions
             continue;
+          } else if (key === 'content'){
+            // used for advanced marker elements - binds scope reference directly 
+            options[key] = attrs[key].split('.').reduce(function(a,b){ return a[b]; }, params);
           } else {
             // nested conversions need to be typechecked
             // (non-strings are fully converted)

@@ -13,14 +13,16 @@
 
       var ctrl = this;
 
-      var d = document.createElement('div');
-      d.style = "background:red;width:100px;height:50px;color:white;"
-      d.innerHTML = '<b>Custom Content</b>';
+      const beachFlagImg = document.createElement("img");
+      beachFlagImg.src = "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png";
 
-      console.log(d);
+      var redDiv = document.createElement('div');
+      redDiv.style = "background:red; width:90px; height:15px; color:white;border:1px solid white;text-align:center;";
+      redDiv.innerHTML = '<b>Custom Content</b>';
 
-      $scope.marker = {
-        content: d
+      $scope.contentExamples = {
+        html: redDiv,
+        img: beachFlagImg
       };
 
     });
@@ -32,9 +34,9 @@
     <marker position="[40.71, -74.21]" title="hello"></marker>
     <marker position="[40.72, -74.20]" title="marker"></marker>
     <marker position="[40.73, -74.19]" title="drag me" gmp-draggable="true"></marker>
-    <marker position="[40.74, -74.18]" title="how"></marker>
+    <marker position="[40.74, -74.18]" title="how" content="contentExamples.html"></marker>
     <marker position="[40.75, -74.17]" title="are"></marker>
-    <marker position="[40.76, -74.16]" title="you" ></marker>
+    <marker position="[40.76, -74.16]" title="you" content="contentExamples.img"></marker>
     <marker position="[40.77, -74.15]" title="from"></marker>
     <marker position="[40.78, -74.14]" title="allen"></marker>
   </ng-map>

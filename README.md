@@ -78,7 +78,7 @@ app.config(function (ngMapConfigProvider) {
 });
 ```
 
-_Important: AdvancedMarkerElements require Google Maps Javascript API v3.53.2 or higher_
+_Important: using AdvancedMarkerElement requires Google Maps Javascript API v3.53.2 or higher_
 
 
 Lazy loading of Google Maps JavaScript
