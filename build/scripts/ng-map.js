@@ -329,134 +329,6 @@ angular.module('ngMap', []);
 
 /**
  * @ngdoc directive
- * @name advancedMarkerElement
- * @param Attr2Options {service} convert html attribute to Google map api options
- * @param NavigatorGeolocation It is used to find the current location
- * @description
- *  Draw a Google map marker on a map with given options and register events
- *
- *  Requires:  map directive
- *
- *  Restrict To:  Element
- *
- * @attr {String} position address, 'current', or [latitude, longitude]
- *  example:
- *    '1600 Pennsylvania Ave, 20500  Washingtion DC',
- *    'current position',
- *    '[40.74, -74.18]'
- * @attr {Boolean} centered if set, map will be centered with this marker
- * @attr {Expression} geo-callback if position is an address,
- *   the expression is will be performed when geo-lookup is successful.
- *   e.g., geo-callback="showStoreInfo()"
- * @attr {Boolean} no-watcher if true, no attribute observer is added.
- *   Useful for many ng-repeat
- * @attr {String} &lt;MarkerOption>
- *   [Any Marker options](https://developers.google.com/maps/documentation/javascript/reference/advanced-markers#AdvancedMarkerElementOptions)
- * @attr {String} &lt;MapEvent>
- *   [Any Marker events](https://developers.google.com/maps/documentation/javascript/reference/advanced-markers#AdvancedMarkerElement-Events)
- * @example
- * Usage:
- *   <map MAP_ATTRIBUTES>
- *    <advanced-marker-element ANY_MARKER_OPTIONS ANY_MARKER_EVENTS"></MARKER>
- *   </map>
- *
- * Example:
- *   <map center="[40.74, -74.18]">
- *    <advanced-marker-element position="[40.74, -74.18]" on-click="myfunc()"></div>
- *   </map>
- *
- *   <map center="the cn tower">
- *    <advanced-marker-element position="the cn tower" on-click="myfunc()"></div>
- *   </map>
- */
-/* global google */
-(function() {
-  'use strict';
-  var parser, $parse, NgMap;
-
-  var getMarker = function(options, events) {
-    var marker;
-
-    if (NgMap.defaultOptions.advancedMarkerElement) {
-      for (var key in NgMap.defaultOptions.advancedMarkerElement) {
-        if (typeof options[key] == 'undefined') {
-          void 0;
-          options[key] = NgMap.defaultOptions.advancedMarkerElement[key];
-        }
-      }
-    }
-
-    if (!(options.position instanceof google.maps.LatLng)) {
-      options.position = new google.maps.LatLng(0,0);
-    }
-    marker = new google.maps.marker.AdvancedMarkerElement(options);
-
-    /**
-     * set events
-     */
-    if (Object.keys(events).length > 0) {
-      void 0;
-    }
-    for (var eventName in events) {
-      if (eventName) {
-        google.maps.event.addListener(marker, eventName, events[eventName]);
-      }
-    }
-
-    return marker;
-  };
-
-  var linkFunc = function(scope, element, attrs, mapController) {
-    mapController = mapController[0]||mapController[1];
-
-    var orgAttrs = parser.orgAttributes(element);
-    var filtered = parser.filter(attrs);
-    var markerOptions = parser.getOptions(filtered, scope, {scope: scope});
-    var markerEvents = parser.getEvents(scope, filtered);
-    void 0;
-
-    var address;
-    if (!(markerOptions.position instanceof google.maps.LatLng)) {
-      address = markerOptions.position;
-    }
-    var marker = getMarker(markerOptions, markerEvents);
-    mapController.addObject('advancedMarkerElements', marker);
-    if (address) {
-      NgMap.getGeoLocation(address).then(function(latlng) {
-        marker.setPosition(latlng);
-        markerOptions.centered && marker.map.setCenter(latlng);
-        var geoCallback = attrs.geoCallback;
-        geoCallback && $parse(geoCallback)(scope);
-      });
-    }
-
-    //set observers
-    mapController.observeAttrSetObj(orgAttrs, attrs, marker); /* observers */
-
-    element.bind('$destroy', function() {
-      mapController.deleteObject('advancedMarkerElements', marker);
-    });
-  };
-
-  var marker = function(Attr2MapOptions, _$parse_, _NgMap_) {
-    parser = Attr2MapOptions;
-    $parse = _$parse_;
-    NgMap = _NgMap_;
-
-    return {
-      restrict: 'E',
-      require: ['^?map','?^ngMap'],
-      link: linkFunc
-    };
-  };
-
-  marker.$inject = ['Attr2MapOptions', '$parse', 'NgMap'];
-  angular.module('ngMap').directive('advancedMarkerElement', marker);
-
-})();
-
-/**
- * @ngdoc directive
  * @name bicycling-layer
  * @param Attr2Options {service}
  *   convert html attribute to Google map api options
@@ -3250,7 +3122,8 @@ angular.module('ngMap', []);
     mapDiv.style.width = "100%";
     mapDiv.style.height = "100%";
     el.appendChild(mapDiv);
-    var mapOptions = $ngMapConfig.useAdvancedMarkerElements ? { mapId: 'MAP_ID_' + mapInstances.length } : {};
+    var mapId = el.dataset.mapId || 'DEFAULT_MAP_ID';
+    var mapOptions = $ngMapConfig.useAdvancedMarkerElements ? { mapId: mapId } : {};
     if ($ngMapConfig.useAdvancedMarkerElements){
       void 0;
     }
