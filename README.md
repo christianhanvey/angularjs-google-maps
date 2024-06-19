@@ -69,6 +69,9 @@ Available configurations:
 ##### Advanced Marker Elements
 * `useAdvancedMarkerElements`: when markers are added, the maps API uses AdvancedMarkerElement instead of Marker class
 
+AdvancedMarkerElement requires a mapId is set when initialising the map. You can customise this mapId by adding a data attribute for mapId to the ngMap instance e.g.:
+  `<ng-map data-map-id="068edba235fe60d">`
+
 Example using configuration:
 
 ```js

@@ -18,7 +18,8 @@
     mapDiv.style.width = "100%";
     mapDiv.style.height = "100%";
     el.appendChild(mapDiv);
-    var mapOptions = $ngMapConfig.useAdvancedMarkerElements ? { mapId: 'MAP_ID_' + mapInstances.length } : {};
+    var mapId = el.dataset.mapId || 'DEFAULT_MAP_ID';
+    var mapOptions = $ngMapConfig.useAdvancedMarkerElements ? { mapId: mapId } : {};
     if ($ngMapConfig.useAdvancedMarkerElements){
       console.warn('NgMap is configured to use AdvancedMarkerElements. Some Marker attributes are not supported by AdvancedMarkerElement: e.g. icon, animation.');
     }
