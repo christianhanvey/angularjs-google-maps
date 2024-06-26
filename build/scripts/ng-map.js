@@ -1881,6 +1881,20 @@ angular.module('ngMap', []);
     //set observers
     mapController.observeAttrSetObj(orgAttrs, attrs, marker); /* observers */
 
+    // advanced marker elements - content attribute is reference to htmlElement for marker content
+    if (ngMapConfig.useAdvancedMarkerElements && attrs.content) {
+      // watch the evaluated 'content' attribute
+      // if the object reference changes, update marker content
+      scope.$watch(function () {
+          // evaluate property reference from scope 
+          return attrs.content.split('.').reduce(function (a, b) { return a[b]; }, scope);
+      }, function (newValue, oldValue) {
+          if (newValue && newValue !== oldValue) {
+              marker.content = newValue;
+          }
+      });
+    }
+
     element.bind('$destroy', function() {
       mapController.deleteObject('markers', marker);
     });
